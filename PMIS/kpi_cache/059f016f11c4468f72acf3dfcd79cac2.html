@@ -1,0 +1,597 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Project Monitoring and Management Information System (PMIS)</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+
+<script type="text/javascript" src="scripts/script.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/styleNew.css">
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js"></script>
+
+<link rel="stylesheet" type="text/css" media="all" href="datepickercode/jquery-ui.css" />
+ <script type="text/javascript" src="datepickercode/jquery-1.10.2.js"></script>
+ <script type="text/javascript" src="datepickercode/jquery-ui.js"></script>
+
+ <script>
+  $(function() {
+    $( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd' }).val();
+	
+  });
+   $(function() {
+    $( "#end_date" ).datepicker({ dateFormat:'yy-mm-dd'}).val();
+	
+  });
+  
+  </script>
+  <script type="text/javascript">
+
+function GetNextLevel(value,div_name)
+{
+	
+	var str=div_name;
+	var div_id=str.substr(6, 7);
+	 var nextlevel;
+	
+	  if(value==0)
+	  {
+	   document.getElementById("str_obj_div_"+div_id).innerHTML=xmlhttp.responseText;
+	  document.getElementById("str_obj_div_"+div_id).style.display="none";
+	  document.getElementById("str_obj_div_"+div_id).style.visibility="hidden";
+	  document.getElementById("lab_"+div_id).style.display="none";
+	  document.getElementById("lab_"+div_id).style.visibility="hidden";
+	  }
+	  else
+	  {
+		    div_id=parseInt(div_id)+1;
+	   if (window.XMLHttpRequest) {
+    // code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttpN=new XMLHttpRequest();
+  } else {  // code for IE6, IE5
+    xmlhttpN=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttpN.onreadystatechange=function() {
+    if (xmlhttpN.readyState==4 && xmlhttpN.status==200) {
+		
+		 document.getElementById("level_count").value=xmlhttpN.responseText;
+	}
+  }
+	
+  xmlhttpN.open("GET","findnextlevelkpicount.php?parentgroup="+value+"&div_id="+div_id,true);
+  xmlhttpN.send();
+	/////////////////////////////////////
+	
+	nextlevel= document.getElementById('level_count').value;
+	
+	if(nextlevel>0)
+	{
+	 if (window.XMLHttpRequest) {
+    // code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+  } else {  // code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function() {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+	
+      document.getElementById("str_obj_div_"+div_id).innerHTML=xmlhttp.responseText;
+	  document.getElementById("str_obj_div_"+div_id).style.display="";
+	  document.getElementById("str_obj_div_"+div_id).style.visibility="visible";
+	  document.getElementById("lab_"+div_id).style.display="";
+	  document.getElementById("lab_"+div_id).style.visibility="visible";
+      
+	 
+    }
+  }
+
+
+  xmlhttp.open("GET","findnextlevelkpi.php?parentgroup="+value+"&div_id="+div_id,true);
+  xmlhttp.send();
+	}
+	  }
+}
+</script>
+</head>
+<body>
+<div style="display: inline-block; height:110px;  background-color:#f8f8f8;">
+<div style="width:auto; text-align:center">
+<a href="./index.php"><img src="images/logo.png"   height="106" title="Home"  align="left" style="border-color:#ccc; border-radius:1px; padding:2px" /></a> 
+<div style="width:auto; padding-top:10px">
+<span style="font-family:Arial, Helvetica, sans-serif; font-size:24px; color:#333; font-weight:bold; padding-left:305px" >Project Monitoring and Management Information System (PMIS)</span><br/>
+<span style="font-family:Arial, Helvetica, sans-serif; font-size:24px; color:#333; font-weight:bold; padding-left:300px" >Key Performance Indicators (KPIs) Dashboard</span>
+</div>
+</div>
+<table cellpadding="4px" cellspacing="0px" align="center" width="100%" style="border: solid 1px #ccc;" > 
+<tr> 
+<td width="20%" align="left" valign="top" style="border-right: solid 1px #ccc;">
+<div id="wrapper_MemberLogin" style="height: 289px;margin:10; width:350px;">
+  <h1 style="color:#000;">KPI Dashboard </h1>
+  <div class="clear"></div>
+  <div id="LoginBox" class="borderRound borderShadow"  style="padding:10px">
+    <form action="KPI_progress_dashboard.php" method="get" name="main_dash" id="main_dash" >
+    <input type="hidden" id="kpi_temp_id" name="kpi_temp_id" value="1" />
+     <input type="hidden" id="level_count" name="level_count" value="1" />
+      <table border="0px" cellpadding="1px" cellspacing="0px" align="center"  >
+      <tr>
+          <td >
+            <strong>
+            <label> Start Date: </label>
+          </strong>
+            </td>
+            <td><input type="text" id="start_date" name="start_date" value="2020-09-01" style="width:150px"/></td>
+            </tr>
+                 <tr>
+          <td >
+            <strong>
+            <label> End Date: </label>
+          </strong>
+            </td>
+            <td><input type="text" id="end_date" name="end_date" value="2020-10-13" style="width:150px"/></td>
+            </tr>
+                     
+                                
+        <tr>
+          <td ><strong>
+                      <label id="lab_0"  > Component: </label>
+          </strong></td>
+          <td><div id="str_obj_div_0">
+            <select name="kpiid_0" id="kpiid_0" onchange="GetNextLevel(this.value,this.name)">
+             <option value="0">Component</option>
+              		    <option value="000001"   selected="selected" >
+								BUND-02-BUNDELKHAND PMC								</option>
+							              </select>
+          </div></td>
+        </tr>
+                        
+        <tr>
+          <td ><strong>
+                      <label id="lab_1"  > Sub Component: </label>
+          </strong></td>
+          <td><div id="str_obj_div_1">
+            <select name="kpiid_1" id="kpiid_1" onchange="GetNextLevel(this.value,this.name)">
+             <option value="0">Sub Component</option>
+              		    <option value="000001_000002"  >
+								A-DISTRICT - MAHOBA								</option>
+							  		    <option value="000001_000071"   selected="selected" >
+								B-DISTRICT - BANDA								</option>
+							  		    <option value="000001_000074"  >
+								C-DISTRICT - CHITRAKOOT								</option>
+							              </select>
+          </div></td>
+        </tr>
+                        
+        <tr>
+          <td ><strong>
+                      <label id="lab_2"  > Activity: </label>
+          </strong></td>
+          <td><div id="str_obj_div_2">
+            <select name="kpiid_2" id="kpiid_2" onchange="GetNextLevel(this.value,this.name)">
+             <option value="0">Activity</option>
+              		    <option value="000001_000002_000003"  >
+								1-Construction of Shivhar Group of Villages  Water Supply Scheme								</option>
+							  		    <option value="000001_000002_000025"  >
+								2-Construction of Salaiya Nathupura Group of Villages  Water Supply Scheme								</option>
+							  		    <option value="000001_000002_000047"  >
+								3-Construction of Lahchura Kashipura Group of Villages  Water Supply Scheme								</option>
+							  		    <option value="000001_000002_000069"  >
+								4-Construction of Kabrai Group of Villages  Water Supply Scheme								</option>
+							  		    <option value="000001_000002_000070"  >
+								5-Construction of Dhawarra Sijwaha Group of Villages  Water Supply Scheme								</option>
+							  		    <option value="000001_000071_000072"  >
+								6-Construction of Amli Kaur Group of Villages & 28 Nos. Tube-Well Based Water Supply Scheme								</option>
+							  		    <option value="000001_000071_000073"  >
+								7-Construction of Khatan Group of Villages Water Supply Scheme								</option>
+							  		    <option value="000001_000074_000075"  >
+								8-Construction of Raipura Group of Villages  Water Supply Scheme								</option>
+							  		    <option value="000001_000074_000076"  >
+								9-Construction of Bharthaul Group of Villages  Water Supply Scheme								</option>
+							  		    <option value="000001_000074_000077"  >
+								10-Construction of Silauta Mustkil & Chandi Banger Group of Villages  Water Supply Scheme								</option>
+							              </select>
+          </div></td>
+        </tr>
+                        
+        <tr>
+          <td ><strong>
+                      <label id="lab_3"  > Sub-Activity: </label>
+          </strong></td>
+          <td><div id="str_obj_div_3">
+            <select name="kpiid_3" id="kpiid_3" onchange="GetNextLevel(this.value,this.name)">
+             <option value="0">Sub-Activity</option>
+              		    <option value="000001_000002_000003_000004"  >
+								1.1-Physical Activities								</option>
+							  		    <option value="000001_000002_000003_000009"  >
+								1.2-Land Details								</option>
+							  		    <option value="000001_000002_000025_000026"  >
+								2.1-Physical Activities								</option>
+							  		    <option value="000001_000002_000025_000031"  >
+								2.2-Land Details								</option>
+							  		    <option value="000001_000002_000047_000048"  >
+								3.1-Physical Activities								</option>
+							  		    <option value="000001_000002_000047_000053"  >
+								3.2-Land Details								</option>
+							              </select>
+          </div></td>
+        </tr>
+                        
+        <tr>
+          <td ><strong>
+                      <label id="lab_4"  > Sub-Activity: </label>
+          </strong></td>
+          <td><div id="str_obj_div_4">
+            <select name="kpiid_4" id="kpiid_4" onchange="GetNextLevel(this.value,this.name)">
+             <option value="0">Sub-Activity</option>
+              		    <option value="000001_000002_000003_000004_000005"  >
+								1.1.1-Rising Main Survey								</option>
+							  		    <option value="000001_000002_000003_000004_000006"  >
+								1.1.2-Distribution Main Survey								</option>
+							  		    <option value="000001_000002_000003_000004_000007"  >
+								1.1.3-Soil Testing (Bore-holes)								</option>
+							  		    <option value="000001_000002_000003_000004_000008"  >
+								1.1.4-Demarcation								</option>
+							  		    <option value="000001_000002_000003_000009_000010"  >
+								1.2.1-Land Identification								</option>
+							  		    <option value="000001_000002_000003_000009_000015"  >
+								1.2.2-Land Clearance								</option>
+							  		    <option value="000001_000002_000003_000009_000020"  >
+								1.2.3-Land Handing Over								</option>
+							  		    <option value="000001_000002_000025_000026_000027"  >
+								2.1.1-Rising Main Survey								</option>
+							  		    <option value="000001_000002_000025_000026_000028"  >
+								2.1.2-Distribution Main Survey								</option>
+							  		    <option value="000001_000002_000025_000026_000029"  >
+								2.1.3-Soil Testing (Bore-holes)								</option>
+							  		    <option value="000001_000002_000025_000026_000030"  >
+								2.1.4-Demarcation								</option>
+							  		    <option value="000001_000002_000025_000031_000032"  >
+								2.2.1-Land Identification								</option>
+							  		    <option value="000001_000002_000025_000031_000037"  >
+								2.2.2-Land Clearance								</option>
+							  		    <option value="000001_000002_000025_000031_000042"  >
+								2.2.3-Land Handing Over								</option>
+							  		    <option value="000001_000002_000047_000048_000049"  >
+								3.1.1-Rising Main Survey								</option>
+							  		    <option value="000001_000002_000047_000048_000050"  >
+								3.1.2-Distribution Main Survey								</option>
+							  		    <option value="000001_000002_000047_000048_000051"  >
+								3.1.3-Soil Testing (Bore-holes)								</option>
+							  		    <option value="000001_000002_000047_000048_000052"  >
+								3.1.4-Demarcation								</option>
+							  		    <option value="000001_000002_000047_000053_000054"  >
+								3.2.1-Land Identification								</option>
+							  		    <option value="000001_000002_000047_000053_000059"  >
+								3.2.2-Land Clearance								</option>
+							  		    <option value="000001_000002_000047_000053_000064"  >
+								3.2.3-Land Handing Over								</option>
+							              </select>
+          </div></td>
+        </tr>
+                        
+        <tr>
+          <td ><strong>
+                      <label id="lab_5"  > Sub-Activity: </label>
+          </strong></td>
+          <td><div id="str_obj_div_5">
+            <select name="kpiid_5" id="kpiid_5" onchange="GetNextLevel(this.value,this.name)">
+             <option value="0">Sub-Activity</option>
+              		    <option value="000001_000002_000003_000009_000010_000011"  >
+								1.2.1.1-Intake								</option>
+							  		    <option value="000001_000002_000003_000009_000010_000012"  >
+								1.2.1.2-WTP								</option>
+							  		    <option value="000001_000002_000003_000009_000010_000013"  >
+								1.2.1.3-OHSR								</option>
+							  		    <option value="000001_000002_000003_000009_000010_000014"  >
+								1.2.1.4-CWR								</option>
+							  		    <option value="000001_000002_000003_000009_000015_000016"  >
+								1.2.2.1-Intake								</option>
+							  		    <option value="000001_000002_000003_000009_000015_000017"  >
+								1.2.2.2-WTP								</option>
+							  		    <option value="000001_000002_000003_000009_000015_000018"  >
+								1.2.2.3-OHSR								</option>
+							  		    <option value="000001_000002_000003_000009_000015_000019"  >
+								1.2.2.4-CWR								</option>
+							  		    <option value="000001_000002_000003_000009_000020_000021"  >
+								1.2.3.1-Intake								</option>
+							  		    <option value="000001_000002_000003_000009_000020_000022"  >
+								1.2.3.2-WTP								</option>
+							  		    <option value="000001_000002_000003_000009_000020_000023"  >
+								1.2.3.3-OHSR								</option>
+							  		    <option value="000001_000002_000003_000009_000020_000024"  >
+								1.2.3.4-CWR								</option>
+							  		    <option value="000001_000002_000025_000031_000032_000033"  >
+								2.2.1.1-Intake								</option>
+							  		    <option value="000001_000002_000025_000031_000032_000034"  >
+								2.2.1.2-WTP								</option>
+							  		    <option value="000001_000002_000025_000031_000032_000035"  >
+								2.2.1.3-OHSR								</option>
+							  		    <option value="000001_000002_000025_000031_000032_000036"  >
+								2.2.1.4-CWR								</option>
+							  		    <option value="000001_000002_000025_000031_000037_000038"  >
+								2.2.2.1-Intake								</option>
+							  		    <option value="000001_000002_000025_000031_000037_000039"  >
+								2.2.2.2-WTP								</option>
+							  		    <option value="000001_000002_000025_000031_000037_000040"  >
+								2.2.2.3-OHSR								</option>
+							  		    <option value="000001_000002_000025_000031_000037_000041"  >
+								2.2.2.4-CWR								</option>
+							  		    <option value="000001_000002_000025_000031_000042_000043"  >
+								2.2.3.1-Intake								</option>
+							  		    <option value="000001_000002_000025_000031_000042_000044"  >
+								2.2.3.2-WTP								</option>
+							  		    <option value="000001_000002_000025_000031_000042_000045"  >
+								2.2.3.3-OHSR								</option>
+							  		    <option value="000001_000002_000025_000031_000042_000046"  >
+								2.2.3.4-CWR								</option>
+							  		    <option value="000001_000002_000047_000053_000054_000055"  >
+								3.2.1.1-Intake								</option>
+							  		    <option value="000001_000002_000047_000053_000054_000056"  >
+								3.2.1.2-WTP								</option>
+							  		    <option value="000001_000002_000047_000053_000054_000057"  >
+								3.2.1.3-OHSR								</option>
+							  		    <option value="000001_000002_000047_000053_000054_000058"  >
+								3.2.1.4-CWR								</option>
+							  		    <option value="000001_000002_000047_000053_000059_000060"  >
+								3.2.2.1-Intake								</option>
+							  		    <option value="000001_000002_000047_000053_000059_000061"  >
+								3.2.2.2-WTP								</option>
+							  		    <option value="000001_000002_000047_000053_000059_000062"  >
+								3.2.2.3-OHSR								</option>
+							  		    <option value="000001_000002_000047_000053_000059_000063"  >
+								3.2.2.4-CWR								</option>
+							  		    <option value="000001_000002_000047_000053_000064_000065"  >
+								3.2.3.1-Intake								</option>
+							  		    <option value="000001_000002_000047_000053_000064_000066"  >
+								3.2.3.2-WTP								</option>
+							  		    <option value="000001_000002_000047_000053_000064_000067"  >
+								3.2.3.3-OHSR								</option>
+							  		    <option value="000001_000002_000047_000053_000064_000068"  >
+								3.2.3.4-CWR								</option>
+							              </select>
+          </div></td>
+        </tr>
+                
+         <tr >
+          <td style="padding-top:20px" align="center" colspan="2">
+            <input type="submit" value="Generate Report"  id="uLogin2"/>
+            </td>
+            <td></td>
+            </tr>
+      </table>
+     
+    </form>
+  </div>
+</div>
+  <script src="lightbox/js/lightbox.min.js"></script>
+  <link href="lightbox/css/lightbox.css" rel="stylesheet" />      
+</td>
+<td width="80%" align="left" valign="top">
+<script src="highcharts/js/highcharts.js"></script>
+<script src="highcharts/js/modules/exporting.js"></script>
+<script src="highcharts/js/modules/jquery.highchartTable.js"></script>
+ 
+ 
+    
+           
+
+<div id="result1" style="margin-top:10px">
+        <script type="text/javascript">
+$(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: 'DISTRICT - BANDA'
+            },
+            subtitle: {
+                text: 'Progress(2020)'
+            },
+            xAxis: {
+                type: 'datetime',
+                dateTimeLabelFormats: { // don't display the dummy year
+                month: '%m-%Y',
+                year: '%Y'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '% Done'
+                },
+                min: 0
+            },
+            tooltip: {
+                formatter: function() {
+                        return '<b>'+ this.series.name +'</b><br/>'+
+                        Highcharts.dateFormat('%d-%m-%Y', this.x) +': '+ this.y +' %';
+                }
+            },
+             legend: {
+            layout: 'vertical',
+            align: 'left',
+            x: 90,
+            verticalAlign: 'top',
+            y: 30,
+            floating: true/*,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'*/
+        },
+            series: [
+			 {
+                name: 'Actual Progress   :  0.00 %',
+                // Define the data points. All series have a dummy year
+                // of 1970/71 in order to be compared on the same x axis. Note
+                // that in JavaScript, months start at 0 for January, 1 for February etc.
+                data: [
+				   
+                    [Date.UTC(2020,8,30) , 0.00 ] , [Date.UTC(2020,9,31) , 0.00 ]                    
+                   
+                ]
+				,
+				marker: {
+               
+                 radius : 1
+            }
+            },
+			{
+                name: 'Planned Progress : 0.00 %',
+                // Define the data points. All series have a dummy year
+                // of 1970/71 in order to be compared on the same x axis. Note
+                // that in JavaScript, months start at 0 for January, 1 for February etc.
+                data: [
+				
+                   [Date.UTC(2020,8,30) , 0.00 ] , [Date.UTC(2020,9,31) , 0.00 ]                    
+                   
+                ]
+				,
+				marker: {
+               
+                 radius : 1
+            }
+			
+            }
+			,
+			{
+                name: '        Gap : 0.00 %',
+				
+				color: 'white',
+                
+				marker: {
+               
+                 enabled: false,
+				 visible: false
+            }
+			
+            }
+			
+			]
+        });
+    });
+    
+
+		</script>
+                
+<table width="99%"  align="right" border="0" style="margin:5px 5px 5px 7px">
+      
+      <tr>
+        <td height="99"  style="line-height:18px; text-align:justify; vertical-align:top">
+          <div id="container" style="min-width: 300px; height: 400px; margin: 0 auto"></div>
+          </td>
+        
+        </tr>
+      
+  </table>
+<table  cellpadding="0px" cellspacing="0px"   width="100%" align="center"  id="tblList" style="border-left:1px #000000 solid;">
+
+<tr bgcolor="000066" style=" color:#FFF">
+<td colspan="30" align="center"><span class="white"><strong> (Progress Report)</strong></span></td>
+</tr>
+<tr>
+
+  <th width="5%" ></th>
+  <th width="40%"></th>
+  <th  width="4%">&nbsp;</th>
+  <th  width="5%">&nbsp;</th>
+  <th  width="5%">&nbsp;</th>
+  <th  width="5%">&nbsp;</th>
+  <th  width="5%">&nbsp;</th>
+  <th  width="5%">&nbsp;</th>
+   <th  width="5%">&nbsp;</th>
+      <th  colspan="1" width="9%">Quarter 3 2020 </th>
+  <th  colspan="1" width="9%">Quarter 4 2020 </th>
+<tr >
+<th width="5%" height="37">#</th>
+<th width="40%"><div align="left">Indicators</div></th>
+<th width="4%">UOM</th>
+<th width="5%">Baseline</th>
+<th width="5%">Total Achieved/Target</th>
+<th width="5%">% Weighted</th>
+<th width="5%">Achieved/Target</th>
+<th>Aggregation</th>
+
+<th>Till  Aug 2020</th>
+ <th>Sep</th>
+<th>Oct</th>
+ 
+</tr>
+
+<tr bgcolor="#5F9EA0">
+  <td width="5%" rowspan="2" style="text-align:right;"><strong>B</strong></td>
+  <td width="40%" rowspan="2" style="text-align:left;"><div align="left"><strong>DISTRICT - BANDA</strong></div></td>
+  <td width="4%" rowspan="2" style="text-align:center;">%</td>
+  <td width="5%" rowspan="2" style="text-align:left;">&nbsp;</td>
+  <td width="5%" rowspan="2" style="text-align:left;">&nbsp;</td>
+  <td width="5%" rowspan="2" style="text-align:right;">20.00&nbsp;%</td>
+  <td height="20" align="right" bgcolor="#5F9EA0"><span style="text-align:right;">Achieved:</span></td>
+  <td style="text-align:right;">Accumulative</td>
+  <td style="text-align:right;">0.00%</td>
+    <td style="text-align:right;">0.00%</td>
+  <td style="text-align:right;">0.00%</td>
+</tr>
+<tr bgcolor="#5F9EA0">
+<td width="5%" height="20" align="right" ><span style="text-align:right;">Target:</span></td>
+<td style="text-align:right;" width="5%">Accumulative</td>
+<td style="text-align:right;" width="5%">0.00%</td>
+<td style="text-align:right;" width="9%">0.00%</td>
+<td style="text-align:right;" width="9%">0.00%</td>
+<!--<td style="text-align:left;"></td>-->
+</tr>
+
+
+
+<tr bgcolor="#8FBC8F">
+  <td width="5%" rowspan="2" style="text-align:right;"><strong>6</strong></td>
+  <td width="40%" rowspan="2" style="text-align:left;"><div align="left"><strong>Construction of Amli Kaur Group of Villages & 28 Nos. Tube-Well Based Water Supply Scheme</strong></div></td>
+  <td width="4%" rowspan="2" style="text-align:center;">%</td>
+  <td width="5%" rowspan="2" style="text-align:left;">&nbsp;</td>
+  <td width="5%" rowspan="2" style="text-align:left;">&nbsp;</td>
+  <td width="5%" rowspan="2" style="text-align:right;">10.00&nbsp;%</td>
+  <td height="20" align="right" bgcolor="#8FBC8F"><span style="text-align:right;">Achieved:</span></td>
+  <td style="text-align:right;">Accumulative</td>
+  <td style="text-align:right;">0.00%</td>
+    <td style="text-align:right;">0.00%</td>
+  <td style="text-align:right;">0.00%</td>
+</tr>
+<tr bgcolor="#8FBC8F">
+<td width="5%" height="20" align="right" ><span style="text-align:right;">Target:</span></td>
+<td style="text-align:right;" width="5%">Accumulative</td>
+<td style="text-align:right;" width="5%">0.00%</td>
+<td style="text-align:right;" width="9%">0.00%</td>
+<td style="text-align:right;" width="9%">0.00%</td>
+<!--<td style="text-align:left;"></td>-->
+</tr>
+
+
+
+<tr bgcolor="#8FBC8F">
+  <td width="5%" rowspan="2" style="text-align:right;"><strong>7</strong></td>
+  <td width="40%" rowspan="2" style="text-align:left;"><div align="left"><strong>Construction of Khatan Group of Villages Water Supply Scheme</strong></div></td>
+  <td width="4%" rowspan="2" style="text-align:center;">%</td>
+  <td width="5%" rowspan="2" style="text-align:left;">&nbsp;</td>
+  <td width="5%" rowspan="2" style="text-align:left;">&nbsp;</td>
+  <td width="5%" rowspan="2" style="text-align:right;">10.00&nbsp;%</td>
+  <td height="20" align="right" bgcolor="#8FBC8F"><span style="text-align:right;">Achieved:</span></td>
+  <td style="text-align:right;">Accumulative</td>
+  <td style="text-align:right;">0.00%</td>
+    <td style="text-align:right;">0.00%</td>
+  <td style="text-align:right;">0.00%</td>
+</tr>
+<tr bgcolor="#8FBC8F">
+<td width="5%" height="20" align="right" ><span style="text-align:right;">Target:</span></td>
+<td style="text-align:right;" width="5%">Accumulative</td>
+<td style="text-align:right;" width="5%">0.00%</td>
+<td style="text-align:right;" width="9%">0.00%</td>
+<td style="text-align:right;" width="9%">0.00%</td>
+<!--<td style="text-align:left;"></td>-->
+</tr>
+
+
+</table>
+</div>
+
+</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
